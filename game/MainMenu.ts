@@ -6,7 +6,6 @@ module Mystery {
         logo: Phaser.Sprite;
 
         create() {
-
             this.background = this.add.sprite(0, 0, 'titlepage');
             this.background.alpha = 0;
 
@@ -17,7 +16,6 @@ module Mystery {
             this.add.tween(this.logo).to({ y: 220 }, 2000, Phaser.Easing.Elastic.Out, true, 2000);
 
             this.input.onDown.addOnce(this.fadeOut, this);
-
         }
 
         fadeOut() {

@@ -5,6 +5,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-shell');
 
     // Configure
     grunt.initConfig({
@@ -68,9 +69,16 @@ module.exports = function(grunt) {
                 'build/**/*',
                 '!build/.nojekyll',
                 '!build/.git'
-            ]
+            ],
+            shell: {
+                nativerun: {
+                    command: './node_modules/.bin/electron .'
+                }
+            }
         });
 
         // Default task
         grunt.registerTask('default', ['typescript', 'copy', 'open', 'connect', 'watch']);
+
+        grunt.registerTask('native', ['typescript', 'copy', 'shell']);
     }

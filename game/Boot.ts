@@ -3,10 +3,12 @@ module Mystery {
     export class Boot extends Phaser.State {
 
         preload() {
-            this.load.image('preloadBar', 'assets/loader.png');
+            this.load.image('preloadBar', './assets/loader.png');
         }
 
         create() {
+
+            console.log('BOOTING CREATE');
 
             //  Single-touch
             this.input.maxPointers = 1;
@@ -18,7 +20,6 @@ module Mystery {
             this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 
             this.game.state.start('Preloader', true, false);
-
         }
 
     }

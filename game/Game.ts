@@ -10,6 +10,7 @@ module Mystery {
     export class Game extends Phaser.Game {
 
         constructor() {
+            console.log('GAME CONSTRUCTOR');
 
             super(800, 600, Phaser.AUTO, 'content', null);
 
