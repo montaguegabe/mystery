@@ -7,6 +7,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-shell');
 
+    // Get date/time string for configuration
+    var datetime = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+
     // Configure
     grunt.initConfig({
         typescript: {
@@ -73,12 +76,25 @@ module.exports = function(grunt) {
             shell: {
                 nativerun: {
                     command: './node_modules/.bin/electron .'
+                },
+                phonedeploy: {
+                    command: `cd build && (git checkout gh-pages;
+                    git commit -am "Build at ${datetime}"; git push; cd ..)`
                 }
             }
         });
 
-        // Default task
-        grunt.registerTask('default', ['typescript', 'copy', 'open', 'connect', 'watch']);
+        // Build task
+        grunt.registerTask('build', ['typescript', 'copy']);
 
-        grunt.registerTask('native', ['typescript', 'copy', 'shell']);
+        // Serves on a web page with live updates
+        grunt.registerTask('web', ['build', 'open', 'connect', 'watch']);
+
+        // Build a native app and run it
+        grunt.registerTask('native', ['build', 'shell:nativerun']);
+
+        // Deploy the web app to GitHub pages for phone access
+        grunt.registerTask('phone', ['build', 'shell:phonedeploy']);
+
+        grunt.registerTask('default', 'serve');
     }
