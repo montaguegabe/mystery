@@ -33,23 +33,31 @@ module Mystery {
 
             console.log('BOOTING CREATE');
 
+            this.game.input.addPointer();
             this.testSprites = [];
-            let sprite;
-            for (let y = 0; y < this.game.height; y = y + 60) {
-                for (let x = 0; x < this.game.width; x = x + 60) {
-                    sprite = this.add.sprite(x, y, 'test');
-                    sprite.anchor.setTo(0.5, 0.5);
-                    sprite.angle = this.game.rnd.integerInRange(0, 359);
-                    sprite.scale.setTo(this.game.rnd.realInRange(0.1, 2), this.game.rnd.realInRange(0.1, 2));
-                    this.testSprites.push(sprite);
-                }
-            }
+            var sprite = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'test');
+            sprite.anchor.setTo(0.5, 0.5);
+            this.game.physics.enable(sprite, Phaser.Physics.ARCADE);
+            this.testSprites.push(sprite);
 
         }
 
         update() {
             for (let testSprite of this.testSprites) {
                 testSprite.angle = (testSprite.angle + 1);
+            }
+
+            var click = this.game.input.activePointer.isDown
+            if (click) {
+                // 400 is the speed it will move towards the mouse
+                var sprite = this.testSprites[0];
+                this.game.physics.arcade.moveToPointer(sprite, 400);
+
+                //  If it's overlapping the mouse, don't move any more
+                if (Phaser.Rectangle.contains(sprite.body, this.game.input.x, this.game.input.y))
+                {
+                    sprite.body.velocity.setTo(0, 0);
+                }
             }
         }
 

@@ -96,5 +96,5 @@ module.exports = function(grunt) {
         // Deploy the web app to GitHub pages for phone access
         grunt.registerTask('phone', ['build', 'shell:phonedeploy']);
 
-        grunt.registerTask('default', 'serve');
+        grunt.registerTask('default', 'web');
     }
