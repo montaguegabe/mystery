@@ -1,13 +1,17 @@
 <!DOCTYPE HTML>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8"/>
     <title>detective</title>
     <link rel="stylesheet" href="./style/app.css" type="text/css" />
     <script src="./vendor/phaser.min.js"></script>
+    <script>
+        const {shell} = require('electron');
+        shell.beep();
+    </script>
     <script src="./js/main.js"></script>
 </head>
 <body>
     <div id="content"></div>
-  </head>
+</body>
 </html>

@@ -1,7 +1,6 @@
-﻿body {
+html, body, #content { height: 100%; min-height: 100%; margin: 0; }
+
+body {
     font-family: 'Segoe UI', sans-serif;
-    margin: 0;
     padding: 0;
 }
-
-#content { margin: 0 auto; }

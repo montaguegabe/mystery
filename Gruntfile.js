@@ -78,8 +78,8 @@ module.exports = function(grunt) {
                     command: './node_modules/.bin/electron .'
                 },
                 phonedeploy: {
-                    command: `cd build && (git checkout gh-pages;
-                    git commit -am "Build at ${datetime}"; git push; cd ..)`
+                    command: `cd build && (git checkout gh-pages; git add .;
+                    git commit -m "Build at ${datetime}"; git push; cd ..)`
                 }
             }
         });

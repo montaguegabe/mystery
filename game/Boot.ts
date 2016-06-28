@@ -1,5 +1,7 @@
 /// <reference path="vendor/phaser-official/typescript/phaser.d.ts"/>
 
+//declare var electron: any;
+
 module Mystery {
 
     export class Boot extends Phaser.State {
@@ -8,28 +10,24 @@ module Mystery {
 
         preload() {
 
-            //  Single-touch
+            // Settings
             this.input.maxPointers = 1;
-
-            // Pause upon navigating away
             this.stage.disableVisibilityChange = true;
-
-            // Fill screen
-            this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-
-            this.load.image('preloadBar', './assets/loader.png');
-
-            this.scale.refresh();
-
-            this.game.load.baseURL = 'http://examples.phaser.io/assets/';
-            this.game.load.crossOrigin = 'anonymous';
-
             this.game.time.advancedTiming = true;
 
-            this.game.load.image('test', 'sprites/phaser-dude.png');
+            // Fill screen
+            this.game.scale.pageAlignHorizontally = true;
+            this.game.scale.pageAlignVertically = true;
+            this.scale.refresh();
+
+            // Load images
+            this.game.load.image('background', './assets/background.png');
+            this.game.load.image('test', './assets/phaser-dude.png');
         }
 
         create() {
+
+            this.game.add.sprite(0, 0, 'background');
 
             console.log('BOOTING CREATE');
 
@@ -39,7 +37,6 @@ module Mystery {
             sprite.anchor.setTo(0.5, 0.5);
             this.game.physics.enable(sprite, Phaser.Physics.ARCADE);
             this.testSprites.push(sprite);
-
         }
 
         update() {
@@ -49,7 +46,7 @@ module Mystery {
 
             var click = this.game.input.activePointer.isDown
             if (click) {
-                // 400 is the speed it will move towards the mouse
+
                 var sprite = this.testSprites[0];
                 this.game.physics.arcade.moveToPointer(sprite, 400);
 
@@ -57,6 +54,8 @@ module Mystery {
                 if (Phaser.Rectangle.contains(sprite.body, this.game.input.x, this.game.input.y))
                 {
                     sprite.body.velocity.setTo(0, 0);
+                    //var window = electron.remote.getCurrentWindow();
+                    window.close();
                 }
             }
         }
