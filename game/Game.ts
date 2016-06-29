@@ -6,7 +6,7 @@ module Mystery {
     export class Game extends Phaser.Game {
 
         constructor() {
-            super(1136, 640, Phaser.AUTO, 'content', null);
+            super(640, 480, Phaser.AUTO, 'content', null);
 
             this.state.add('Boot', Boot, false);
             this.state.start('Boot');

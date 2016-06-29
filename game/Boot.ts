@@ -27,7 +27,7 @@ module Mystery {
 
         create() {
 
-            this.game.add.sprite(0, 0, 'background');
+            //this.game.add.sprite(0, 0, 'background');
 
             console.log('BOOTING CREATE');
 
@@ -54,8 +54,6 @@ module Mystery {
                 if (Phaser.Rectangle.contains(sprite.body, this.game.input.x, this.game.input.y))
                 {
                     sprite.body.velocity.setTo(0, 0);
-                    //var window = electron.remote.getCurrentWindow();
-                    window.close();
                 }
             }
         }

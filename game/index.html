@@ -6,8 +6,14 @@
     <link rel="stylesheet" href="./style/app.css" type="text/css" />
     <script src="./vendor/phaser.min.js"></script>
     <script>
-        const {shell} = require('electron');
-        shell.beep();
+        var electronRunning = window && window.process && window.process.type;
+        if (electronRunning) {
+            console.log('Running Electron');
+            //const {shell} = require('electron');
+            //shell.beep();
+        }
+        var cocoonRunning = (typeof navigator['isCocoonJS'] !== "undefined");
+        if (cocoonRunning) console.log('Running Cocoon');
     </script>
     <script src="./js/main.js"></script>
 </head>
