@@ -1,5 +1,5 @@
 /// <reference path="../vendor/phaser-official/typescript/phaser.d.ts"/>
-/// <reference path='Boot.ts'/>
+/// <reference path='MainRoom.ts'/>
 
 module Mystery {
 
@@ -8,8 +8,8 @@ module Mystery {
         constructor() {
             super(640, 480, Phaser.AUTO, 'content', null);
 
-            this.state.add('Boot', Boot, false);
-            this.state.start('Boot');
+            this.state.add('MainRoom', MainRoom, false);
+            this.state.start('MainRoom');
         }
     }
 }
