@@ -17,7 +17,7 @@ module.exports = function(grunt) {
 
         typescript: {
             all: {
-                src: ['platform-specific/<%= platform %>/**/*.ts', 'game/app.ts'],
+                src: ['game/app.ts', 'platform-specific/<%= platform %>/**/*.ts'],
                 dest: 'build/<%= platform %>/js/main.js',
                 options: {
                     sourceMap: true

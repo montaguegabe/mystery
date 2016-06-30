@@ -1,7 +1,5 @@
 /// <reference path="../vendor/phaser-official/typescript/phaser.d.ts"/>
 
-//declare var electron: any;
-
 module Mystery {
 
     export class MainRoom extends Phaser.State {
@@ -10,16 +8,6 @@ module Mystery {
 
         preload() {
 
-            // Settings
-            this.input.maxPointers = 1;
-            this.stage.disableVisibilityChange = true;
-            this.game.time.advancedTiming = true;
-
-            // Fill screen
-            this.game.scale.pageAlignHorizontally = true;
-            this.game.scale.pageAlignVertically = true;
-            this.scale.refresh();
-
             // Load images
             var space = 55;
             this.game.load.spritesheet('player', 'assets/player-walk.png', 128 - space, 132 - space, 7, 0, space);
@@ -27,7 +15,6 @@ module Mystery {
 
         create() {
 
-            this.game.input.addPointer();
             this.testSprites = [];
             var sprite = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'player');
             sprite.animations.add('walk');

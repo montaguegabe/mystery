@@ -1,8 +1,10 @@
-/// <reference path='Game.ts'/>
+//
+// app.ts: The main entry point for platform-independent game logic. Launches
+// the phaser game.
+//
 
-declare var isCocoonJS : boolean;
-declare var isElectron : boolean;
-declare var isWeb : boolean;
+/// <reference path='interface/platform-bridge.d.ts'/>
+/// <reference path='game.ts'/>
 
 window.onload = () => {
     var game = new Mystery.Game();
