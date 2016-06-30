@@ -7,94 +7,137 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-shell');
 
-    // Get date/time string for configuration
-    var datetime = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
+    var datetime = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
 
     // Configure
     grunt.initConfig({
+
+        // The build platform
+        platform: (grunt.option('platform') || 'web'),
+
         typescript: {
-            game: {
-                src: ['game/app.ts'],
-                dest: 'build/js/main.js',
+            all: {
+                src: ['platform-specific/<%= platform %>/**/*.ts', 'game/app.ts'],
+                dest: 'build/<%= platform %>/js/main.js',
                 options: {
                     sourceMap: true
                 }
             }
         },
         copy: {
-            game: {
-                files: [
-                    {
-                        cwd: 'game',
-                        expand: true,
-                        src: [
-                            '**/*.html',
-                            '!vendor/**/*.html',
-                            'assets/**/*',
-                            'style/**/*.css'],
-                            dest: 'build/'
-                        }
-                    ]
-                },
-                bower: {
-                    files: [
-                        {
-                            'build/vendor/phaser.min.js': 'game/vendor/phaser-official/build/phaser.min.js',
-                            'build/vendor/phaser.map': 'game/vendor/phaser-official/build/phaser.map'
-                        }
-                    ]
-                }
+            shared: {
+                files: [{
+                    cwd: 'game', // try list here
+                    expand: true,
+                    src: [
+                        '**/*.html',
+                        'assets/**/*',
+                        'style/**/*.css',
+                        'js/**/*.js',
+                    ],
+                    dest: 'build/<%= platform %>/'
+                }]
             },
-            open: {
-                game: {
-                    path: 'http://localhost:8080'
-                }
+            platform: {
+                files: [{
+                    cwd: 'platform-specific/<%= platform %>',
+                    expand: true,
+                    src: [
+                        '**/*.html',
+                        'assets/**/*',
+                        'style/**/*.css',
+                        '**/*.js',
+                    ],
+                    dest: 'build/<%= platform %>/'
+                }]
             },
-            connect: {
-                game: {
-                    options: {
-                        port: 8080,
-                        base: 'build',
-                        livereload: true
-                    }
-                }
-            },
-            watch: {
-                game: {
-                    files: 'game/**/*',
-                    tasks: ['typescript', 'copy'],
-                    options: {
-                        livereload: true
-                    }
-                }
-            },
-            clean: [
-                'build/**/*',
-                '!build/.nojekyll',
-                '!build/.git'
-            ],
-            shell: {
-                nativerun: {
-                    command: './node_modules/.bin/electron .'
-                },
-                phonedeploy: {
-                    command: `cd build && (git checkout gh-pages; git add .;
-                    git commit -m "Build at ${datetime}"; git push; cd ..)`
+            bower: {
+                // Add new runtime dependencies here
+                files: [{
+                    'build/<%= platform %>/vendor/phaser.min.js': 'vendor/phaser-official/build/phaser.min.js',
+                    'build/<%= platform %>/vendor/phaser.map':  'vendor/phaser-official/build/phaser.map'
+                }]
+            }
+        },
+
+        // BEGIN web-platform-specific tasks
+        open: {
+            web: {
+                path: 'http://localhost:8080'
+            }
+        },
+        connect: {
+            web: {
+                options: {
+                    port: 8080,
+                    base: 'build/web',
+                    livereload: true
                 }
             }
-        });
+        },
+        watch: {
+            web: {
+                files: ['game/**/*', 'platform-specific/web/**/*'],
+                tasks: ['typescript', 'copy'],
+                options: {
+                    livereload: true
+                }
+            }
+        },
+        // END web-platform-specific tasks
 
-        // Build task
-        grunt.registerTask('build', ['typescript', 'copy']);
+        clean: {
+            native: ['build/native/**/*'],
+            web: ['build/web/**/*'],
 
-        // Serves on a web page with live updates
-        grunt.registerTask('web', ['build', 'open', 'connect', 'watch']);
+            // Preserve deployment-related items on mobile build
+            mobile: ['build/mobile/**/*', '!build/.nojekyll', '!build/.git']
+        },
 
-        // Build a native app and run it
-        grunt.registerTask('native', ['build', 'shell:nativerun']);
+        // Shell runs commands to get up and running on mobile and native
+        shell: {
+            native: {
+                command: './node_modules/.bin/electron .'
+            },
+            mobile: {
+                command: `cd build/mobile && (git checkout gh-pages; git add .;
+                    git commit -m "Build at ${datetime}";
+                    git push; cd ..)`
+            }
+        }
+    });
 
-        // Deploy the web app to GitHub pages for phone access
-        grunt.registerTask('phone', ['build', 'shell:phonedeploy']);
+    // Build task
+    grunt.registerTask('build', ['typescript', 'copy']);
 
-        grunt.registerTask('default', 'web');
-    }
+    // Run task
+    grunt.registerTask('run', () => {
+        var platform = grunt.config('platform');
+        switch (platform) {
+            case 'web':
+                grunt.task.run(['open', 'connect', 'watch']);
+                break;
+            case 'native':
+            case 'mobile':
+                grunt.task.run(['shell:' + platform]);
+                break;
+            default:
+                grunt.log.error(`Error while running: Unknown platform '${platform}'`);
+        }
+    });
+
+
+    // SHORTCUTS below
+
+    grunt.registerTask('default', ['build', 'run']);
+
+    // Internal: Overrides the platform for future tasks
+    grunt.registerTask('platformset', (platform) => {
+        grunt.config('platform', platform);
+    });
+
+    // Shortcuts for building and running on each platform
+    grunt.registerTask('web', ['platformset:web', 'build', 'run']);
+    grunt.registerTask('native', ['platformset:native', 'build', 'run']);
+    grunt.registerTask('mobile', ['platformset:mobile', 'build', 'run']);
+}

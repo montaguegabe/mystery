@@ -2,19 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
-    <title>detective</title>
+    <title>Detective</title>
     <link rel="stylesheet" href="./style/app.css" type="text/css" />
     <script src="./vendor/phaser.min.js"></script>
-    <script>
-        var electronRunning = window && window.process && window.process.type;
-        if (electronRunning) {
-            console.log('Running Electron');
-            //const {shell} = require('electron');
-            //shell.beep();
-        }
-        var cocoonRunning = (typeof navigator['isCocoonJS'] !== "undefined");
-        if (cocoonRunning) console.log('Running Cocoon');
-    </script>
+    <script src="./js/platform-bridge.js"></script>
     <script src="./js/main.js"></script>
 </head>
 <body>

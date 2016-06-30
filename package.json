@@ -2,7 +2,7 @@
   "name": "mystery",
   "version": "1.0.0",
   "description": "A fun little mystery game",
-  "main": "main.js",
+  "main": "build/native/main-native.js",
   "repository": {
     "type": "git",
     "url": "mystery"
