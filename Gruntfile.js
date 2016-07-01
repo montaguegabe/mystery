@@ -20,8 +20,17 @@ module.exports = function(grunt) {
                 src: ['game/app.ts', 'platform-specific/<%= platform %>/**/*.ts'],
                 dest: 'build/<%= platform %>/js/main.js',
                 options: {
-                    sourceMap: true
+                    sourceMap: true,
+                    generateTsConfig: true,
+                    references: [
+                        "vendor/phaser-official/typescript/phaser.d.ts",
+                        "game/typings/**/*.d.ts",
+                        "game/**/*.ts",
+                        "!game/assets/**/*",
+                        "!game/js/**/*"
+                    ]
                 }
+
             }
         },
         copy: {

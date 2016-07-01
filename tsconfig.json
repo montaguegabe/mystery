@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "sourceMap": true,
+        "out": "build/web/js/main.js",
+        "target": "ES3",
+        "noEmitOnError": true
+    },
+    "files": [
+        "vendor/phaser-official/typescript/phaser.d.ts",
+        "game/app.ts",
+        "game/engine/game.ts",
+        "game/engine/object.ts",
+        "game/engine/room.ts",
+        "game/game.ts",
+        "game/interface/platform-bridge.d.ts",
+        "game/main-room.ts",
+        "game/player.ts",
+        "game/app.ts"
+    ]
+}

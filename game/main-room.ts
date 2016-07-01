@@ -1,10 +1,8 @@
-/// <reference path="../vendor/phaser-official/typescript/phaser.d.ts"/>
-
 module Mystery {
 
-    export class MainRoom extends Phaser.State {
+    export class MainRoom extends Engine.MRoom {
 
-        testSprites;
+        sprites;
 
         preload() {
 
@@ -15,13 +13,9 @@ module Mystery {
 
         create() {
 
-            this.testSprites = [];
-            var sprite = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'player');
-            sprite.animations.add('walk');
-            sprite.anchor.setTo(0.5, 0.5);
-            sprite.animations.play('walk', 12, true);
-            this.game.physics.enable(sprite, Phaser.Physics.ARCADE);
-            this.testSprites.push(sprite);
+            this.sprites = [];
+            var sprite = new Player(this.game, this.world.centerX, this.world.centerY);
+            this.sprites.push(sprite);
         }
 
         update() {
@@ -29,7 +23,7 @@ module Mystery {
             var click = this.game.input.activePointer.isDown
             if (click) {
 
-                var sprite = this.testSprites[0];
+                var sprite = this.sprites[0];
                 this.game.physics.arcade.moveToPointer(sprite, 400);
 
                 //  If it's overlapping the mouse, don't move any more
