@@ -36,7 +36,7 @@ module.exports = function(grunt) {
         copy: {
             shared: {
                 files: [{
-                    cwd: 'game', // try list here
+                    cwd: 'game',
                     expand: true,
                     src: [
                         '**/*.html',
