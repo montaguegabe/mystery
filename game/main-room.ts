@@ -4,14 +4,14 @@ module Mystery {
 
         sprites;
 
-        preload() {
+        config() {
 
             // Load images
             var space = 55;
             this.game.load.spritesheet('player', 'assets/player-walk.png', 128 - space, 132 - space, 7, 0, space);
         }
 
-        create() {
+        start() {
 
             this.sprites = [];
             var sprite = new Player(this.game, this.world.centerX, this.world.centerY);

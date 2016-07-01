@@ -10,13 +10,13 @@ module Mystery {
             super(640, 480, Phaser.AUTO, 'content', null);
 
             // Go to first room
-            this.state.add('MainRoom', MainRoom);
-            this.state.start('MainRoom');
+            var room : Engine.MRoom = new MainRoom();
+            room.onConfig.add(this.settings, this);
+            this.state.add('MainRoom', room, true);
         }
 
         // Configures the global game setup. Called by
-        configure() {
-            console.log("Configure");
+        settings() {
             this.input.maxPointers = 1;
             this.stage.disableVisibilityChange = true;
             this.time.advancedTiming = true;
