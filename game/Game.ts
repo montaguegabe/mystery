@@ -11,7 +11,7 @@ module Mystery {
 
             // Go to first room
             var room : Engine.MRoom = new MainRoom();
-            room.onConfig.add(this.settings, this);
+            this.onRoomConfig.add(this.settings, this);
             this.state.add('MainRoom', room, true);
         }
 

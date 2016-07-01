@@ -6,11 +6,13 @@ module Engine {
 
     export class MRoom extends Phaser.State {
 
+        game : MGame;
+
         // Signal fired after configuration/resource loading
-        onConfig: Phaser.Signal
+        onConfig: Phaser.Signal;
 
         // Signal that is fired after the room has completely loade and the create function has been called
-        onStart: Phaser.Signal
+        onStart: Phaser.Signal;
 
         constructor() {
             super();
@@ -24,6 +26,7 @@ module Engine {
 
             this.config();
             this.onConfig.dispatch();
+            this.game.onRoomConfig.dispatch();
         }
 
         create() {
@@ -32,6 +35,7 @@ module Engine {
 
             this.start();
             this.onStart.dispatch();
+            this.game.onRoomCreated.dispatch();
         }
 
         // Override these:
